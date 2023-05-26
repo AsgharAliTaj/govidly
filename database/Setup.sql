@@ -32,7 +32,8 @@
 --   created_at timestamp not null  
 -- );
 
-create table genres (
+
+create table if not exists genres (
   id uuid not null unique,
   name varchar(64) not null unique
 );

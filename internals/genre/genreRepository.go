@@ -4,7 +4,7 @@ import "github.com/jmoiron/sqlx"
 
 type GenreRepository interface {
 	GetGenre() (Genre, error)
-	CreateGenre() error
+	CreateGenre(Genre) error
 	DeleteGenre() error
 	GetAllGenre() ([]Genre, error)
 }
@@ -21,8 +21,17 @@ func (g *genreRepository) GetGenre() (genre Genre, err error) {
 	return genre, nil
 }
 
-func (g *genreRepository) CreateGenre() (err error) {
-	return err
+func (g *genreRepository) CreateGenre(genre Genre) (err error) {
+	err = g.databse.Get(
+		&genre,
+		"INSERT INTO genres (id, name) VALUES ($1, $2) RETURNING *",
+		genre.ID,
+		genre.Name,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (g *genreRepository) DeleteGenre() (err error) {

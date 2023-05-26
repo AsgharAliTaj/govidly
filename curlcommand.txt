@@ -1,0 +1,5 @@
+/// post genre ///
+curl -X POST localhost:3000/api/genre -H "Content-type: applicaiton/json" -d '{"name": "action"}'
+
+/// get genre ////
+
