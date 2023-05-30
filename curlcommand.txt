@@ -2,4 +2,5 @@
 curl -X POST localhost:3000/api/genre -H "Content-type: applicaiton/json" -d '{"name": "action"}'
 
 /// get genre ////
+15caee92-8cf8-4246-ba31-e06eef289e8d
 

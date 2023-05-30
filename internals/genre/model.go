@@ -2,15 +2,13 @@ package genre
 
 import (
 	"errors"
-
-	"github.com/google/uuid"
 )
 
 // import "github.com/google/uuid"
 
 type Genre struct {
-	ID   uuid.UUID `json:"id"   db:"id"`
-	Name string    `json:"name" db:"name"`
+	ID   int    `json:"id"   db:"id"`
+	Name string `json:"name" db:"name"`
 }
 
 func validateName(g Genre) error {

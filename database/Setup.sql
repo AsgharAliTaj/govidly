@@ -34,6 +34,6 @@
 
 
 create table if not exists genres (
-  id uuid not null unique,
+  id serial primary key,
   name varchar(64) not null unique
 );
