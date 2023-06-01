@@ -1,13 +1,15 @@
 package genre
 
 import (
+	"fmt"
+
 	"github.com/jmoiron/sqlx"
 )
 
 type GenreRepository interface {
 	GetGenre(int) (Genre, error)
 	CreateGenre(Genre) error
-	DeleteGenre() error
+	DeleteGenre(int) error
 	GetAllGenre() ([]Genre, error)
 }
 
@@ -34,12 +36,17 @@ func (g *genreRepository) CreateGenre(genre Genre) (err error) {
 		genre.Name,
 	)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	return nil
 }
 
-func (g *genreRepository) DeleteGenre() (err error) {
+func (g *genreRepository) DeleteGenre(id int) (err error) {
+	_, err = g.databse.Exec("DELETE from genres where id = $1", id)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

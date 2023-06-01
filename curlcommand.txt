@@ -1,6 +1,8 @@
 /// post genre ///
-curl -X POST localhost:3000/api/genre -H "Content-type: applicaiton/json" -d '{"name": "action"}'
+curl -v -X POST localhost:3000/api/genres -H "Content-Type: application/json" -d '{"name": "action"}'
 
-/// get genre ////
-15caee92-8cf8-4246-ba31-e06eef289e8d
+/// get all genres ///
+curl -v localhost:3000/api/genres
+
+
 
