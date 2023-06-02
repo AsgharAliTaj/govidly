@@ -6,21 +6,31 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type GenreRepository interface {
+type Genrer interface {
+	GetAllGenre() ([]Genre, error)
 	GetGenre(int) (Genre, error)
 	CreateGenre(Genre) error
 	DeleteGenre(int) error
-	GetAllGenre() ([]Genre, error)
 }
 
 type genreRepository struct {
 	databse *sqlx.DB
 }
 
-func NewGenreRepository(databse *sqlx.DB) GenreRepository {
+func NewGenreRepository(databse *sqlx.DB) Genrer {
 	return &genreRepository{databse: databse}
 }
 
+// get all genres
+func (g *genreRepository) GetAllGenre() (genres []Genre, err error) {
+	err = g.databse.Select(&genres, "SELECT * FROM genres ORDER BY name ASC")
+	if err != nil {
+		return nil, err
+	}
+	return genres, nil
+}
+
+// get a single genre
 func (g *genreRepository) GetGenre(id int) (genre Genre, err error) {
 	err = g.databse.Get(&genre, "SELECT * from genres where id=$1", id)
 	if err != nil {
@@ -29,6 +39,7 @@ func (g *genreRepository) GetGenre(id int) (genre Genre, err error) {
 	return genre, nil
 }
 
+// create a genre
 func (g *genreRepository) CreateGenre(genre Genre) (err error) {
 	err = g.databse.Get(
 		&genre,
@@ -42,18 +53,11 @@ func (g *genreRepository) CreateGenre(genre Genre) (err error) {
 	return nil
 }
 
+// delete a genre
 func (g *genreRepository) DeleteGenre(id int) (err error) {
 	_, err = g.databse.Exec("DELETE from genres where id = $1", id)
 	if err != nil {
 		return err
 	}
 	return nil
-}
-
-func (g *genreRepository) GetAllGenre() (genres []Genre, err error) {
-	err = g.databse.Select(&genres, "SELECT * FROM genres")
-	if err != nil {
-		return nil, err
-	}
-	return genres, nil
 }

@@ -19,9 +19,7 @@ func main() {
 		Addr:    ":3000",
 		Handler: r,
 	}
-	err := server.ListenAndServe()
-	if err != nil {
-		log.Fatal("failed to listen and serve ", err)
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal("server failed to start at port 3000")
 	}
-	log.Println("server is up and running on Port:3000")
 }

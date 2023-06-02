@@ -68,13 +68,6 @@ func (g *GenreHandler) GenrePost(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(body, &genreName)
 	genre.Name = genreName.Name
 
-	// err := validateName(genre)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-
 	err := g.genreRepository.CreateGenre(genre)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -84,6 +77,7 @@ func (g *GenreHandler) GenrePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (g *GenreHandler) GenrePut(w http.ResponseWriter, r *http.Request) {
+	// not implemented because i i don't i need this for this small api of genre
 }
 
 func (g *GenreHandler) GenreDelete(w http.ResponseWriter, r *http.Request) {

@@ -32,8 +32,17 @@
 --   created_at timestamp not null  
 -- );
 
+create table if not exists customers (
+  id uuid PRIMARY KEY,
+  name varchar(64) not null,
+  phone varchar(64) not null, 
+  is_gold boolean not null
+);
+
 
 create table if not exists genres (
   id serial primary key,
   name varchar(64) not null unique
 );
+
+
