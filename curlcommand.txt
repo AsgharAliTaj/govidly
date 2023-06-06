@@ -6,3 +6,11 @@ curl -v localhost:3000/api/genres
 
 
 
+884e79b1-832c-4e47-a3b3-b4472a60d152
+
+
+// post customer //
+curl -v -X POST localhost:3000/api/customers -H "Content-Type: application/json" -d `{"name": "hammal", "phone":"033322343", "isGold":true}` 
+
+
+

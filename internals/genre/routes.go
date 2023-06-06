@@ -8,7 +8,9 @@ import (
 
 func RegisterRoutes(r *chi.Mux) {
 	genreHandler := &GenreHandler{
-		genreRepository: NewGenreRepository(database.InitDB()),
+		genreRepository: &genreRepository{
+			database: database.InitDB(),
+		},
 	}
 
 	r.Route("/api/genres", func(r chi.Router) {

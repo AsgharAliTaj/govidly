@@ -2,23 +2,14 @@ package genre
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-
-	"github.com/asgharalitaj/govidly/database"
 )
 
 type GenreHandler struct {
-	genreRepository GenreRepository
-}
-
-func NewGenreHandler() *GenreHandler {
-	return &GenreHandler{
-		genreRepository: NewGenreRepository(database.InitDB()),
-	}
+	genreRepository Genrer
 }
 
 func (g *GenreHandler) GenreGetAll(w http.ResponseWriter, r *http.Request) {
@@ -54,8 +45,6 @@ func (g *GenreHandler) GenreGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (g *GenreHandler) GenrePost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("GenrePost handler")
-
 	var genreName struct {
 		Name string `json:"name"`
 	}
@@ -77,7 +66,7 @@ func (g *GenreHandler) GenrePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (g *GenreHandler) GenrePut(w http.ResponseWriter, r *http.Request) {
-	// not implemented because i i don't i need this for this small api of genre
+	// not implemented because i don't need this for this small api of genre
 }
 
 func (g *GenreHandler) GenreDelete(w http.ResponseWriter, r *http.Request) {

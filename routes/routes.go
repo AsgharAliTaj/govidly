@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
+	"github.com/asgharalitaj/govidly/internals/customer"
 	"github.com/asgharalitaj/govidly/internals/genre"
 	"github.com/asgharalitaj/govidly/middlewares"
 )
@@ -17,4 +18,5 @@ func RegisterRoutes(r *chi.Mux) {
 	r.Use(middlewares.ResponseHeaderMiddleware)
 
 	genre.RegisterRoutes(r)
+	customer.RegisterRoutes(r)
 }
