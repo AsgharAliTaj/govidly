@@ -8,7 +8,7 @@ type Customerer interface {
 	GetAllCustomer() ([]Customer, error)
 	GetCustomer(string) (Customer, error)
 	CreateCustomer(Customer) error
-	UpdateCustomer(Customer) (Customer, error)
+	UpdateCustomer(Customer) error
 	DeleteCustomer(string) error
 }
 
@@ -47,10 +47,24 @@ func (c *CustomerRepository) CreateCustomer(customer Customer) (err error) {
 	return nil
 }
 
-func (c *CustomerRepository) UpdateCustomer(cu Customer) (customer Customer, err error) {
-	return customer, nil
+func (c *CustomerRepository) UpdateCustomer(customer Customer) (err error) {
+	_, err = c.database.Exec(
+		"UPDATE customers SET name = $2, phone = $3, is_gold = $4 where id = $1",
+		&customer.ID,
+		&customer.Name,
+		&customer.Phone,
+		&customer.IsGold,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *CustomerRepository) DeleteCustomer(id string) (err error) {
+	_, err = c.database.Exec("DELETE from customers where id = $1", id)
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -17,5 +17,7 @@ func RegisterRoutes(r *chi.Mux) {
 		r.Get("/", customerHandler.CustomerGetAll)
 		r.Get("/{customerId}", customerHandler.CustomerGet)
 		r.Post("/", customerHandler.CustomerPost)
+		r.Put("/", customerHandler.CustomerPut)
+		r.Delete("/{customerId}", customerHandler.CustomerDelete)
 	})
 }

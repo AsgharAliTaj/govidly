@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 )
 
 type CustomerHandler struct {
@@ -15,8 +16,6 @@ type CustomerHandler struct {
 func (c *CustomerHandler) CustomerGetAll(w http.ResponseWriter, r *http.Request) {
 	customers, err := c.CustomerRepository.GetAllCustomer()
 	b, err := json.Marshal(customers)
-	// e := json.NewEncoder(w)
-	// e.Encode()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -43,7 +42,6 @@ func (c *CustomerHandler) CustomerGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *CustomerHandler) CustomerPost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("customer post ")
 	var customerFromRequest struct {
 		Name   string `json:"name"`
 		Phone  string `json:"phone"`
@@ -57,11 +55,57 @@ func (c *CustomerHandler) CustomerPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	fmt.Println(customerFromRequest)
+	var customer Customer
+	customerUUID := uuid.New()
+	customer.ID = customerUUID
+	customer.Name = customerFromRequest.Name
+	customer.Phone = customerFromRequest.Phone
+	customer.IsGold = customerFromRequest.IsGold
+	err = c.CustomerRepository.CreateCustomer(customer)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Customer Created"))
 }
 
 func (c *CustomerHandler) CustomerPut(w http.ResponseWriter, r *http.Request) {
+	len := r.ContentLength
+	body := make([]byte, len)
+	r.Body.Read(body)
+	var customer Customer
+	err := json.Unmarshal(body, &customer)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	customerId := (customer.ID).String()
+	customerFromDb, err := c.CustomerRepository.GetCustomer(customerId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	customerFromDb.Name = customer.Name
+	customerFromDb.Phone = customer.Phone
+	customerFromDb.IsGold = customer.IsGold
+	err = c.CustomerRepository.UpdateCustomer(customerFromDb)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("customer updated"))
 }
 
 func (c *CustomerHandler) CustomerDelete(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("delete end point called")
+	customerId := chi.URLParam(r, "customerId")
+	err := c.CustomerRepository.DeleteCustomer(customerId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("customer successfully deleted"))
 }
