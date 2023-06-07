@@ -1,2 +1,2 @@
 # govidly
-A backend rest API based on Mosh Hamadani vidly app but using golang instead of node
+A backend rest API based on Mosh Hamadani vidly backend but using GO (golang) with Chi and sqlx instead of node
