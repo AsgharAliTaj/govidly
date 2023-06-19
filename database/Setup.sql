@@ -45,4 +45,17 @@ create table if not exists genres (
   name varchar(64) not null unique
 );
 
+create table if not exists movies (
+  id uuid PRIMARY KEY,
+  name varchar(64) not null,
+  number_in_stock integer not null,
+  daily_rental_rate integer not null
+);
+
+create table if not exists movies_genres (
+  id serial primary key,
+  movie_id uuid,
+  genre_name varchar(64) not null,
+  FOREIGN KEY(movie_id) REFERENCES movies(id)
+);
 

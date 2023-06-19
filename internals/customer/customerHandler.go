@@ -2,7 +2,6 @@ package customer
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -15,6 +14,10 @@ type CustomerHandler struct {
 
 func (c *CustomerHandler) CustomerGetAll(w http.ResponseWriter, r *http.Request) {
 	customers, err := c.CustomerRepository.GetAllCustomer()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	b, err := json.Marshal(customers)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -99,7 +102,6 @@ func (c *CustomerHandler) CustomerPut(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *CustomerHandler) CustomerDelete(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("delete end point called")
 	customerId := chi.URLParam(r, "customerId")
 	err := c.CustomerRepository.DeleteCustomer(customerId)
 	if err != nil {

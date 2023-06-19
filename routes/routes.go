@@ -6,6 +6,7 @@ import (
 
 	"github.com/asgharalitaj/govidly/internals/customer"
 	"github.com/asgharalitaj/govidly/internals/genre"
+	"github.com/asgharalitaj/govidly/internals/movie"
 	"github.com/asgharalitaj/govidly/middlewares"
 )
 
@@ -19,4 +20,5 @@ func RegisterRoutes(r *chi.Mux) {
 
 	genre.RegisterRoutes(r)
 	customer.RegisterRoutes(r)
+	movie.RegisterRoutes(r)
 }

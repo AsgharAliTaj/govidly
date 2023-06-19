@@ -6,11 +6,31 @@ curl -v localhost:3000/api/genres
 
 
 
-884e79b1-832c-4e47-a3b3-b4472a60d152
-
-
 // post customer //
 curl -v -X POST localhost:3000/api/customers -H "Content-Type: application/json" -d `{"name": "hammal", "phone":"033322343", "isGold":true}` 
+
+
+
+movie:
+title string
+genre many to many relation
+numberInstock int
+dailyrentalRate int
+
+
+
+
+select * from movies
+inner join
+movies_genres on
+movies.id = movies_genres.movie_id
+
+
+select movies.id, movies.name, movies.number_in_stock, movies.daily_rental_rate, movies_genres.genre_name from movies
+inner join
+movies_genres on
+movies.id = movies_genres.movie_id
+
 
 
 

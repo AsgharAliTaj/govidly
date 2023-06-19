@@ -4,8 +4,6 @@ import (
 	"errors"
 )
 
-// import "github.com/google/uuid"
-
 type Genre struct {
 	ID   int    `json:"id"`
 	Name string `json:"name" db:"name"`
