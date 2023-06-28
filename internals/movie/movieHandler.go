@@ -11,11 +11,11 @@ type MovieHandler struct {
 
 func (m *MovieHandler) MovieGetAll(w http.ResponseWriter, r *http.Request) {
 	movies, err := m.MovieRepository.GetAllMovies()
-	b, err := json.Marshal(movies)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	b, err := json.Marshal(movies)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

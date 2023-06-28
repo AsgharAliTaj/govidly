@@ -39,7 +39,6 @@ create table if not exists customers (
   is_gold boolean not null
 );
 
-
 create table if not exists genres (
   id serial primary key,
   name varchar(64) not null unique
@@ -58,4 +57,11 @@ create table if not exists movies_genres (
   genre_name varchar(64) not null,
   FOREIGN KEY(movie_id) REFERENCES movies(id)
 );
+
+create table if not exists users (
+  id uuid PRIMARY KEY,
+  name varchar(64) not null,
+  email varchar(254) not null unique,
+  password varchar(224) not null
+)
 

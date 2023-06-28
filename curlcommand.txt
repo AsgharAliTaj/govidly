@@ -10,6 +10,10 @@ curl -v localhost:3000/api/genres
 curl -v -X POST localhost:3000/api/customers -H "Content-Type: application/json" -d `{"name": "hammal", "phone":"033322343", "isGold":true}` 
 
 
+curl -v -X POST localhost:3000/api/users -H "Content-Type: application/json" -d '{"name": "ali", "email":"asghar@gmail.com", "password": "1234566"}' 
+
+
+1234567
 
 movie:
 title string
