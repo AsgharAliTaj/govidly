@@ -27,7 +27,7 @@ func (g *GenreHandler) GenreGet(w http.ResponseWriter, r *http.Request) {
 	genreId := chi.URLParam(r, "genreId")
 	value, err := strconv.Atoi(genreId)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	genre, err := g.genreRepository.GetGenre(value)

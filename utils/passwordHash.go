@@ -69,7 +69,6 @@ func ComparePasswordAndHash(password, encodedHash string) (match bool, err error
 		p.parallelism,
 		p.keyLength,
 	)
-	fmt.Println("otherHash: ", otherHash)
 
 	if subtle.ConstantTimeCompare(hash, otherHash) == 1 {
 		return true, nil
@@ -104,7 +103,6 @@ func DecodedHash(encodedHash string) (p *params, salt, hash []byte, err error) {
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	fmt.Println(string(hash))
 	p.keyLength = uint32(len(hash))
 
 	return p, salt, hash, nil
