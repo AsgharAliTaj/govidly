@@ -13,6 +13,27 @@ type UserHandler struct {
 	userRepository Userer
 }
 
+func (u *UserHandler) UserGet(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	id, ok := ctx.Value("id").(uuid.UUID)
+	if !ok {
+		http.Error(w, "id is invalid", http.StatusBadRequest)
+		return
+	}
+	user, err := u.userRepository.GetUser(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	userbytes, err := json.Marshal(&user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(userbytes)
+}
+
 func (u *UserHandler) UserPost(w http.ResponseWriter, r *http.Request) {
 	var userReqData struct {
 		Name     string `json:"name"`
@@ -56,6 +77,6 @@ func (u *UserHandler) UserPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Add("x-auth-token", ss)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("user created!"))
 }

@@ -62,10 +62,11 @@ func (g *GenreHandler) GenrePost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func (g *GenreHandler) GenrePut(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "not implemented", http.StatusNotFound)
 	// not implemented because i don't need this for this small api of genre
 }
 

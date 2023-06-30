@@ -1,18 +1,21 @@
 package user
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
+)
 
 type Userer interface {
 	CreateUser(User) error
-	GetUser(string) (User, error)
+	GetUser(uuid.UUID) (User, error)
 }
 
 type userRepository struct {
 	database *sqlx.DB
 }
 
-func (u *userRepository) GetUser(email string) (user User, err error) {
-	err = u.database.Get(&user, "SELECT * from users where email=$1", email)
+func (u *userRepository) GetUser(id uuid.UUID) (user User, err error) {
+	err = u.database.Get(&user, "SELECT id, name, email from users where id=$1", id)
 	if err != nil {
 		return user, err
 	}

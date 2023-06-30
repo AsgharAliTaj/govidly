@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/asgharalitaj/govidly/database"
+	"github.com/asgharalitaj/govidly/middlewares"
 )
 
 func RegisterRoute(r *chi.Mux) {
@@ -15,5 +16,6 @@ func RegisterRoute(r *chi.Mux) {
 
 	r.Route("/api/users", func(r chi.Router) {
 		r.Post("/", userHandler.UserPost)
+		r.Get("/me", middlewares.AuthStatusCheckingMiddleware(userHandler.UserGet))
 	})
 }
