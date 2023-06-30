@@ -12,25 +12,31 @@ type AuthHandler struct {
 }
 
 func (a *AuthHandler) UserGet(w http.ResponseWriter, r *http.Request) {
-	var user struct {
+	var userReqData struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	json.NewDecoder(r.Body).Decode(&user)
-	result, err := a.authRepository.GetUser(user.Email)
+	json.NewDecoder(r.Body).Decode(&userReqData)
+	user, err := a.authRepository.GetUser(userReqData.Email)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	match, err := passwordHash.ComparePasswordAndHash(user.Password, result.Password)
+	match, err := passwordHash.ComparePasswordAndHash(userReqData.Password, user.Password)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
 	if match == true {
-		w.Write([]byte("Password Matched\n"))
+		ss, err := user.GenerateAuthToken()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(ss))
 		return
 	}
+	w.WriteHeader(http.StatusBadRequest)
 	w.Write([]byte("Password didn't match\n"))
 }

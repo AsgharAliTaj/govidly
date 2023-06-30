@@ -21,6 +21,8 @@ genre many to many relation
 numberInstock int
 dailyrentalRate int
 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ1MzlmOGM1LTVkZDktNDM5OC04N2QzLTI0NDEzOTFjODA2MiIsImV4cCI6MTY4ODIxNjM2N30.TTq4XJcjVoQhBC7fuqXmA0-alblVhmAp9MJ9QJwbInw
+
 
 
 
@@ -35,6 +37,6 @@ inner join
 movies_genres on
 movies.id = movies_genres.movie_id
 
-
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQyOGUzODljLWYwZGMtNDk5OS1hOWNhLWZjOWQxNTVlYTg0ZCIsImV4cCI6MTY4ODIwMTA2Nn0.d1UldeV6qXJ2TGjzyXZ-iiHUoeInnsUIS7cgg8zuoMY
 
 

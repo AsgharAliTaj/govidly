@@ -50,6 +50,12 @@ func (u *UserHandler) UserPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	ss, err := user.GenerateAuthToken()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Add("x-auth-token", ss)
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("user created!"))
 }
